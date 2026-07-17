@@ -77,6 +77,8 @@ b. **Ranh giới ngôn ngữ (quan trọng — áp toàn dự án):** tiếng Vi
 c. **Entity**: file/class tiếng Anh (`order.entity.ts` → class `Order`), ánh xạ tên bảng tiếng Việt qua decorator (`@Entity('don_hang')` hoặc `@@map` của Prisma); **property đặt đúng tên cột snake_case của ERD** (`ma_don_hang`, `trang_thai`) — nhìn entity là thấy nguyên bảng, không có lớp "dịch tên" ở giữa.
 d. **DTO là code nội bộ → tiếng Anh trọn vẹn**: file `create-order.dto.ts`, class `CreateOrderDto` (khớp quy tắc a và b). Chỉ có **các trường bên trong DTO** là snake_case tiếng Việt (`ma_san_pham`, `so_luong`) vì chúng chính là JSON mà client gửi/nhận.
 e. Bảng nối/khái niệm ERD chưa có module riêng (vd `nguon_cau_duyet`) → entity nằm trong module chủ quản gần nhất (`ai-review/entities/answer-source.entity.ts` ánh xạ bảng `nguon_cau_duyet`), không đẻ module mới chỉ vì có bảng.
+f. **Độ dài file — file dài là nợ, phải tách:** ngưỡng mềm ~300 dòng (nghĩ đến việc tách), ngưỡng cứng **500 dòng — không được vượt** (trừ file thuần dữ liệu/cấu hình). Controller ≤ ~200 dòng. Một hàm/method ≤ ~50 dòng, một method làm MỘT việc. Chạm ngưỡng thì tách NGAY trong lần sửa đó, đừng hẹn "dọn sau".
+g. **Cách tách khi service phình to:** tách theo nhóm việc thành service con cùng module — vd `orders.service.ts` (điều phối) + `order-status.service.ts` (máy trạng thái) + `order-payment.service.ts` (xác nhận tiền, idempotency); logic dùng chung nhiều module → hàm thuần trong `common/utils/`. Tách file là tách TRÁCH NHIỆM, không phải cắt đôi cơ học một file dài thành hai file dính nhau.
 
 ### API
 
